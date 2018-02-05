@@ -1,3 +1,8 @@
+# Pics
+*.ppm
+*.png
+img
+
 # Prerequisites
 *.d
 

@@ -1,0 +1,25 @@
+-color depth
+
+bits    options
+1       c: s
+2       c: s, i
+3       rgb: s
+4       rgb: i
+6       r,g,b: i
+24      r,g,b: i 256
+
+rgb
+hsb
+
+-type
+vector
+raster
+
+bmp tiff raw
+
+compression
+lossless lossy
+
+png portable network graphics
+gif graphics interchange format
+jpeg joint photographic experts group
