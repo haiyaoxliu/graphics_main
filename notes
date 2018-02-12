@@ -23,3 +23,6 @@ lossless lossy
 png portable network graphics
 gif graphics interchange format
 jpeg joint photographic experts group
+
+bresenham's line algorithm
+midpoint comparison
