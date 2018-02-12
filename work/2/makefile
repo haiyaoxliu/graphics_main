@@ -1,5 +1,6 @@
 run: all
 	./lines
+	convert lines.ppm ../../img/lines.png
 
 all: lines.o
 	gcc -o lines lines.o
