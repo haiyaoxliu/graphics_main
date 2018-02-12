@@ -12,10 +12,86 @@
 
 #include "lines.h"
 
+int depth = 4;
+
+void subTriangle(int n, int x1, int y1, int x2, int y2, int x3, int y3, int size, int *bits)
+{
+  //Draw the 3 sides as black lines
+  line(x1, y1, x2, y2, size, bits);
+  line(x1, y1, x3, y3, size, bits);
+  line(x2, y2, x3, y3, size, bits);
+
+  //Calls itself 3 times with new corners, but only if the current number of recursions is smaller than the maximum depth
+  if(n < depth)
+  {
+    //Smaller triangle 1
+    subTriangle
+    (
+      n+1, //Number of recursions for the next call increased with 1
+      (x1 + x2) / 2 + (x2 - x3) / 2, //x coordinate of first corner
+      (y1 + y2) / 2 + (y2 - y3) / 2, //y coordinate of first corner
+      (x1 + x2) / 2 + (x1 - x3) / 2, //x coordinate of second corner
+      (y1 + y2) / 2 + (y1 - y3) / 2, //y coordinate of second corner
+      (x1 + x2) / 2, //x coordinate of third corner
+      (y1 + y2) / 2, //y coordinate of third corner
+      size,
+      bits
+    );
+    //Smaller triangle 2
+    subTriangle
+    (
+      n+1, //Number of recursions for the next call increased with 1
+      (x3 + x2) / 2 + (x2 - x1) / 2, //x coordinate of first corner
+      (y3 + y2) / 2 + (y2 - y1) / 2, //y coordinate of first corner
+      (x3 + x2) / 2 + (x3 - x1) / 2, //x coordinate of second corner
+      (y3 + y2) / 2 + (y3 - y1) / 2, //y coordinate of second corner
+      (x3 + x2) / 2, //x coordinate of third corner
+      (y3 + y2) / 2,  //y coordinate of third corner
+      size,
+      bits
+    );
+    //Smaller triangle 3
+    subTriangle
+    (
+      n+1, //Number of recursions for the next call increased with 1
+      (x1 + x3) / 2 + (x3 - x2) / 2, //x coordinate of first corner
+      (y1 + y3) / 2 + (y3 - y2) / 2, //y coordinate of first corner
+      (x1 + x3) / 2 + (x1 - x2) / 2, //x coordinate of second corner
+      (y1 + y3) / 2 + (y1 - y2) / 2, //y coordinate of second corner
+      (x1 + x3) / 2, //x coordinate of third corner
+      (y1 + y3) / 2,  //y coordinate of third corner
+      size,
+      bits
+    );
+  }
+}
+
+
+void sierpinski(int x1, int y1, int x2, int y2, int x3, int y3, int size, int *bits) {
+    //Draw the 3 sides of the triangle as black lines
+    line(x1, y1, x2, y2, size, bits);
+    line(x1, y1, x3, y3, size, bits);
+    line(x2, y2, x3, y3, size, bits);
+
+    //Call the recursive function that'll draw all the rest. The 3 corners of it are always the centers of sides, so they're averages
+    subTriangle
+    (
+      1, //This represents the first recursion
+      (x1 + x2) / 2, //x coordinate of first corner
+      (y1 + y2) / 2, //y coordinate of first corner
+      (x1 + x3) / 2, //x coordinate of second corner
+      (y1 + y3) / 2, //y coordinate of second corner
+      (x2 + x3) / 2, //x coordinate of third corner
+      (y2 + y3) / 2,  //y coordinate of third corner
+      size,
+      bits
+    );
+}
+
 int main(int argc, char **argv) {
     srand(time(NULL));
     int *bits = (int*)calloc(512, sizeof(int));
-    int depth = 2;
+    int depth = 6;
 
 
     //draw(0,8191,depth,bits);
@@ -23,9 +99,11 @@ int main(int argc, char **argv) {
     //draw(16383,8192,depth,bits);
     //draw(16256,8319,depth,bits);
 
-    for(int i = 0; i < 1; i++) {
+    /*for(int i = 0; i < 1; i++) {
         draw(rand()%64,rand()%64,depth,bits);
-    }
+    }*/
+
+    sierpinski(0,0,127,0,0,127,2 << depth, bits);
 
     save(depth,bits);
 
@@ -77,12 +155,13 @@ void line(int x0, int y0, int x1, int y1, int size, int *bits) {
             0 < 1/m < 2: inc(y);
     */
 
-    //find values for slope and orient into quadrant 1, include (t)wo * versions for convenience
-    int dx, dy, tx, ty, xinc, yinc;
+    //find values for slope and orient into quadrant 1
+    int dx, dy, tx, ty, xinc, yinc, D, T;
     tx = (dx = (xinc = x0<x1 ? 1 : -1) * (x1-x0)) << 1;
     ty = (dy = (yinc = y0<y1 ? 1 : -1) * (y1-y0)) << 1;
 
-    int D = (dx>dy ? -dx : dy), T;
+    //init error
+    D = (dx>dy ? -dx : dy);
 
     while(1) {
 
