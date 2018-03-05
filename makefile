@@ -1,24 +1,29 @@
-OBJECTS= main.o draw.o display.o matrix.o
+
+OBJECTS= main.o draw.o display.o matrix.o parser.o
+CFLAGS= -Wall
 LDFLAGS= -lm
 CC= gcc
 
-all: $(OBJECTS)
-	$(CC) -o main $(OBJECTS)
-
-main.o: work/3/main.c work/3/display.h work/3/draw.h work/3/ml6.h work/3/matrix.h
-	$(CC) -g -c work/3/main.c
-
-draw.o: work/3/draw.c work/3/draw.h work/3/display.h work/3/ml6.h work/3/matrix.h
-	$(CC) -g -c work/3/draw.c
-
-display.o: work/3/display.c work/3/display.h work/3/ml6.h work/3/matrix.h
-	$(CC) -g -c work/3/display.c
-
-matrix.o: work/3/matrix.c work/3/matrix.h
-	$(CC) -g -c work/3/matrix.c
-
 run: main
-	./main
+	./main script
+
+main: $(OBJECTS)
+	$(CC) -o main $(OBJECTS) $(LDFLAGS)
+
+main.o: main.c display.h draw.h ml6.h matrix.h parser.h
+	$(CC) -c main.c
+
+draw.o: draw.c draw.h display.h ml6.h matrix.h
+	$(CC) $(CFLAGS) -c draw.c
+
+display.o: display.c display.h ml6.h matrix.h
+	$(CC) $(CFLAGS) -c display.c
+
+matrix.o: matrix.c matrix.h
+	$(CC) $(CFLAGS) -c matrix.c
+
+parser.o: parser.c parser.h matrix.h draw.h display.h ml6.h
+	$(CC) $(CFLAGS) -c parser.c
 
 clean:
-	rm *.o *~ main
+	rm *.o *~

@@ -24,21 +24,21 @@ int main(int argv, char** argc) {
   add_edge(b, 1, 1, 0, 2, 3, 0);
   add_edge(b, 5, 8, 0, 13, 21, 0);
   print_matrix(b);
-  printf("\n========================\n");
+  printf("\n========================a\n");
 
   add_edge(a, 5, 4, 0, 7, 5, 0);
   add_edge(b, 2, 9, 0, 6, 1, 0);
   print_matrix(a);
-  printf("\n========================\n");
+  printf("\n========================b\n");
 
   matrix_mult(a, b);
   print_matrix(b);
-  printf("\n========================\n");
+  printf("\n========================mult\n");
 
   ident(a);
   print_matrix(a);
   //print_matrix(b);
-  printf("\n========================\n");
+  printf("\n========================ident\n");
 
   free_matrix(a);
   free_matrix(b);

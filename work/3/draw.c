@@ -16,7 +16,7 @@ adds point (x, y, z) to points and increment points.lastcol
 if points is full, should call grow on points
 ====================*/
 void add_point( struct matrix * points, double x, double y, double z) {
-	if( points->lastcol == points->cols ) {
+	if( points->lastcol == pobints->cols ) {
 		grow_matrix(points, points->lastcol + 2);
 	}
 	points->m[0][ points->lastcol ] = x;

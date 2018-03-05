@@ -37,7 +37,6 @@ void ident(struct matrix *m) {
     m->lastcol = m->cols;
 }
 
-
 /*-------------- void matrix_mult() --------------
 Inputs:  struct matrix *a
          struct matrix *b
@@ -48,7 +47,6 @@ a*b -> b
 void matrix_mult(struct matrix *a, struct matrix *b) {
     int i, j, k;
     double t[b->rows]; //aux col
-    struct matrix *tmp = new_matrix(a->rows, b->lastcol);
 
     //a->lastcol should equal b->rows
     for(i = 0; i < b->lastcol; i++) {
@@ -60,17 +58,6 @@ void matrix_mult(struct matrix *a, struct matrix *b) {
             }
         }
     }
-
-    /* can't do: free_matrix(b); b = tmp;
-    for (i = 0; i < a->rows; i++) {
-        for (j = 0; j < b->lastcol; j++) {
-            for (k = 0; k < b->rows; k++) {
-                tmp->m[i][j] += a->m[i][k] * b->m[k][j];
-            }
-        }
-    }
-    */
-
 }
 
 
